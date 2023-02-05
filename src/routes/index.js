@@ -12,6 +12,7 @@ export default function RoutesApp(){
             <Route path="/" element={<SignIn/>} />
             <Route path="/register"  element={<SignUp/>} />
             <Route path="/dashboard" element={<Dashboard/>} />
+            <Route path="*" element={<h1>Erro</h1>} />
         </Routes>
     )
 }
