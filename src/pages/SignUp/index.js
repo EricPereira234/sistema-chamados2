@@ -1,9 +1,10 @@
 
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 
 //importando arquivos
 import logo from "../../assets/logo.png";
+import { AuthContext } from "../../contexts/auth";
 
 export default function SignUp(){
     const [nome, setNome] = useState('');
@@ -11,11 +12,14 @@ export default function SignUp(){
     const [password, setPassword] = useState('');
 
 
+    const {signUp} = useContext(AuthContext);
+
+
     function handleSubmit(e){
         e.preventDefault();
 
         if(nome !== '' && email !== '' && password !== ''){
-            
+            signUp(email, password, nome)
         }
 
     }
