@@ -3,7 +3,7 @@ import { useState, useEffect, createContext } from "react";
 import {db, auth} from "../services/firebaseConnection";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import { async } from "@firebase/util";
+
 
 
 export const AuthContext = createContext({});
@@ -11,7 +11,7 @@ export const AuthContext = createContext({});
 
 function AuthProvider({children}){
     const [user, setUser ] = useState(false);
-    const {loadingAuth, setLoadinAuth} = useState(false);
+    const [loadingAuth, setLoadinAuth] = useState(false);
 
 
     //função de logar
@@ -22,7 +22,7 @@ function AuthProvider({children}){
     }
 
     //função de cadastro
-    async function signUp(email, password, nome){
+    async function signUp(nome, email, password){
         setLoadinAuth(true);
         await createUserWithEmailAndPassword(auth, email, password)
         .then(async (value)=>{

@@ -12,14 +12,14 @@ export default function SignUp(){
     const [password, setPassword] = useState('');
 
 
-    const {signUp} = useContext(AuthContext);
+    const { signUp } = useContext(AuthContext);
 
 
     function handleSubmit(e){
         e.preventDefault();
 
         if(nome !== '' && email !== '' && password !== ''){
-            signUp(email, password, nome)
+            signUp(nome, email, password);
         }
 
     }
@@ -52,7 +52,7 @@ export default function SignUp(){
                         onChange={(e)=>setPassword(e.target.value)}
                     />
 
-                    <button type={'submit'} > Acessar </button>
+                    <button type={'submit'} > Criar conta </button>
                 </form>
 
                     <Link to={'/'} >já tem uma conta? Faça login</Link>
