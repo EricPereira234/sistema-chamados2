@@ -1,4 +1,5 @@
 import { useState, useEffect, createContext } from "react";
+import { useNavigate } from "react-router-dom";
 
 import {db, auth} from "../services/firebaseConnection";
 import { createUserWithEmailAndPassword } from "firebase/auth";
@@ -32,8 +33,17 @@ function AuthProvider({children}){
                 avatarUrl: null
             })
             .then(()=>{
-                alert('Cadastrado com sucesso');
+                
+                let data = {
+                    uid: uid,
+                    nome: nome,
+                    email: value.user.email,
+                    avatarUrl: null
+                }
+
+                setUser(data);
                 setLoadinAuth(false);
+                
             })
         })
         .catch((error)=>{
@@ -49,6 +59,7 @@ function AuthProvider({children}){
                 user,
                 signIn,
                 signUp,
+                loadingAuth,
             }}
         >
             {children}
