@@ -1,5 +1,6 @@
 import { useState, useEffect, createContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import {db, auth} from "../services/firebaseConnection";
 import { createUserWithEmailAndPassword } from "firebase/auth";
@@ -13,6 +14,8 @@ export const AuthContext = createContext({});
 function AuthProvider({children}){
     const [user, setUser ] = useState(false);
     const [loadingAuth, setLoadinAuth] = useState(false);
+
+    const navigate = useNavigate();
 
 
     //função de logar
@@ -42,14 +45,20 @@ function AuthProvider({children}){
                 }
 
                 setUser(data);
+                storageUser(data);
                 setLoadinAuth(false);
-                
+                toast.success('seja bem vindo!');
+                navigate('/dashboard');
             })
         })
         .catch((error)=>{
             console.log(error);
             setLoadinAuth(false);
         })
+    }
+
+    function storageUser(data){
+        localStorage.setItem('@ticketsPRO', JSON.stringify(data));
     }
 
     return(
