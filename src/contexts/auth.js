@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import {db, auth} from "../services/firebaseConnection";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 
 
@@ -19,10 +19,35 @@ function AuthProvider({children}){
 
 
     //função de logar
-    function signIn(email, password){
-        console.log(email);
-        console.log(password);
-        alert('logado')
+    async  function signIn(email, password){
+        setLoadinAuth(true);
+
+        await signInWithEmailAndPassword(auth, email, password)
+        .then( async (value)=>{
+            let uid = value.user.uid;
+
+            const docRef = doc(db, "users", uid);
+            const docSnap = await getDoc(docRef);
+
+            let data = {
+                uid: uid,
+                nome: docSnap.data().nome,
+                email: value.user.email,
+                avatarUrl: docSnap.data().avatarUrl
+            }
+
+            setUser(data);
+            storageUser(data);
+            setLoadinAuth(false);
+            toast.success('Bem vindo de volta!');
+            navigate('/dashboard');
+
+        })
+        .catch((error)=>{
+            console.log(error);
+            setLoadinAuth(false);
+            toast.error('Algo deu errado !')
+        })
     }
 
     //função de cadastro
