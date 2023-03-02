@@ -14,6 +14,7 @@ export const AuthContext = createContext({});
 function AuthProvider({children}){
     const [user, setUser ] = useState(false);
     const [loadingAuth, setLoadinAuth] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     const navigate = useNavigate();
 
@@ -94,6 +95,7 @@ function AuthProvider({children}){
                 signIn,
                 signUp,
                 loadingAuth,
+                loading
             }}
         >
             {children}
