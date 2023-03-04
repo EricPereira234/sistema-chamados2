@@ -3,8 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import {db, auth} from "../services/firebaseConnection";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
+import { async } from "@firebase/util";
 
 
 
@@ -17,6 +18,20 @@ function AuthProvider({children}){
     const [loading, setLoading] = useState(true);
 
     const navigate = useNavigate();
+
+
+    useEffect(()=>{
+        async function loadUser(){
+            const storageUser = localStorage.getItem('@ticketsPRO');
+
+            if(storageUser){
+                setUser(JSON.parse(storageUser));
+                setLoading(false);
+            }
+
+            setLoading(false);
+        }
+    },[])
 
 
     //função de logar
@@ -87,6 +102,12 @@ function AuthProvider({children}){
         localStorage.setItem('@ticketsPRO', JSON.stringify(data));
     }
 
+    async function logout(){
+        await signOut(auth);
+        localStorage.removeItem('@ticketsPRO');
+        setUser(null);
+    }
+
     return(
         <AuthContext.Provider
             value={{
@@ -94,6 +115,7 @@ function AuthProvider({children}){
                 user,
                 signIn,
                 signUp,
+                logout,
                 loadingAuth,
                 loading
             }}
