@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import {db, auth} from "../services/firebaseConnection";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import { async } from "@firebase/util";
+
 
 
 
@@ -31,6 +31,8 @@ function AuthProvider({children}){
 
             setLoading(false);
         }
+
+        loadUser();
     },[])
 
 
