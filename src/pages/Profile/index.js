@@ -14,8 +14,9 @@ export default function Profile(){
                 <Title name={'Minha conta'} >
                     <FiSettings size={25} />
                 </Title>
+                Profile
             </div>
-            Profile
+           
         </div>
     )
 }
