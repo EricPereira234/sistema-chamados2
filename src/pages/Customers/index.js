@@ -1,6 +1,10 @@
 import { useState } from 'react';
 import Header from '../../components/Header';
 import Title from '../../components/Title';
+import { toast } from 'react-toastify';
+
+import { db } from '../../services/firebaseConnection';
+import { doc, addDoc, collection } from 'firebase/firestore';
 
 import { FiUser } from 'react-icons/fi';
 
@@ -9,10 +13,28 @@ export default function Customers(){
   const [cnpj, setCnpj] = useState('');
   const [endereco, setEndereco] = useState('');
 
-  function handleRegister(e){
+  async function handleRegister(e){
     e.preventDefault();
 
-    alert("TESTE")
+    if(nome !== '' && cnpj !== '' && endereco !== ''){
+      await addDoc(collection(db, 'customers'),{
+        nomeFantasia: nome,
+        cnpj: cnpj,
+        endereco: endereco
+      })
+      .then(()=>{
+        setNome('');
+        setCnpj('');
+        setEndereco('');
+        toast.success('Cadastrado com sucesso!');
+      })
+      .catch((error)=>{
+        console.log(error);
+      })
+    }else{
+      toast.error('Confira todos os campos !');
+    }
+
   }
 
   return(
