@@ -12,9 +12,12 @@ import { Link } from 'react-router-dom';
 export default function Dashboard(){
   const { logout } = useContext(AuthContext);
 
+
   async function handleLogout(){
     await logout();
   }
+
+  
 
   return(
     <div>
